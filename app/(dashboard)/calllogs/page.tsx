@@ -11,6 +11,27 @@ export default function CallLogsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterReferral, setFilterReferral] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  /** Delete a call log and its associated voice note */
+  async function handleDelete(log: CallLog) {
+    if (!confirm("Are you sure you want to delete this call log?")) return;
+    setDeletingId(log.id);
+    try {
+      const supabase = createClient();
+      // Delete the call log
+      await supabase.from("call_logs").delete().eq("id", log.id);
+      // Also delete the associated voice note if it exists
+      await supabase.from("voice_notes").delete().eq("id", log.voice_note_id);
+      // Remove from local state
+      setLogs((prev) => prev.filter((l) => l.id !== log.id));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete call log. Please try again.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   useEffect(() => {
     async function fetchLogs() {
@@ -87,19 +108,22 @@ export default function CallLogsPage() {
               <th className="px-4 py-3 text-left font-medium text-gray-500">
                 Follow-Up
               </th>
+              <th className="px-4 py-3 text-right font-medium text-gray-500">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {loading && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
                   Loading...
                 </td>
               </tr>
             )}
             {!loading && filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={8} className="px-4 py-8 text-center text-gray-400">
                   No call logs found.
                 </td>
               </tr>
@@ -144,6 +168,15 @@ export default function CallLogsPage() {
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-gray-600">
                   {log.follow_up_date || "—"}
+                </td>
+                <td className="whitespace-nowrap px-4 py-3 text-right">
+                  <button
+                    onClick={() => handleDelete(log)}
+                    disabled={deletingId === log.id}
+                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {deletingId === log.id ? "Deleting..." : "Delete"}
+                  </button>
                 </td>
               </tr>
             ))}
