@@ -1,4 +1,5 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 /**
@@ -26,5 +27,16 @@ export function createServerSupabase() {
         },
       },
     }
+  );
+}
+
+/**
+ * Creates a Supabase client with the service role key.
+ * Use this for server-side operations that need to bypass RLS (e.g., cron jobs).
+ */
+export function createServiceSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }

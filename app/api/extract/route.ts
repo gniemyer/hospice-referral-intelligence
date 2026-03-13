@@ -13,6 +13,7 @@ Extract the following information from the note and return JSON only — no expl
 
 Fields:
 - facility_name (string)
+- facility_address (string — the full address including city and state of the facility. If not explicitly stated, use your knowledge to provide the most likely address for the facility mentioned. If you cannot determine it, use an empty string.)
 - contact_name (string)
 - contact_role (string)
 - discussion_summary (string, 1-2 sentences)

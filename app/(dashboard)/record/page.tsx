@@ -92,10 +92,71 @@ export default function RecordPage() {
         .single();
       if (vnError) throw new Error(`Step 4 failed (save voice note): ${vnError.message}`);
 
-      // 5. Save call log
+      // 5. Upsert facility and trigger geocoding
+      let facilityId: string | null = null;
+      if (extractData.facility_name) {
+        setError("Step 5: Resolving facility...");
+        const { data: existingFacility } = await supabase
+          .from("facilities")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("facility_name", extractData.facility_name)
+          .single();
+
+        if (existingFacility) {
+          facilityId = existingFacility.id;
+        } else {
+          const { data: newFacility, error: facError } = await supabase
+            .from("facilities")
+            .insert({
+              user_id: user.id,
+              facility_name: extractData.facility_name,
+              facility_address: extractData.facility_address || null,
+              geocode_status: "pending",
+            })
+            .select()
+            .single();
+          if (facError && facError.code !== "23505") {
+            console.warn("Facility upsert warning:", facError.message);
+          }
+          facilityId = newFacility?.id || null;
+        }
+
+        // Fire-and-forget geocoding
+        fetch("/api/geocode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            facility_name: extractData.facility_name,
+            facility_address: extractData.facility_address,
+          }),
+        })
+          .then(async (geoRes) => {
+            if (geoRes.ok) {
+              const geoData = await geoRes.json();
+              if (geoData.resolved && facilityId) {
+                await supabase
+                  .from("facilities")
+                  .update({
+                    latitude: geoData.latitude,
+                    longitude: geoData.longitude,
+                    facility_address: geoData.display_name || extractData.facility_address,
+                    geocode_status: "resolved",
+                    updated_at: new Date().toISOString(),
+                  })
+                  .eq("id", facilityId);
+              }
+            }
+          })
+          .catch(() => {}); // Non-blocking — geocode failures are OK
+      }
+
+      // 6. Save call log
+      setError("Step 6: Saving call log...");
       const { error: clError } = await supabase.from("call_logs").insert({
         user_id: user.id,
         voice_note_id: voiceNote?.id,
+        facility_id: facilityId,
         facility_name: extractData.facility_name || null,
         contact_name: extractData.contact_name || null,
         contact_role: extractData.contact_role || null,
@@ -104,7 +165,7 @@ export default function RecordPage() {
         follow_up_date: extractData.follow_up_date || null,
         sentiment: extractData.sentiment || null,
       });
-      if (clError) throw new Error(`Step 5 failed (save call log): ${clError.message}`);
+      if (clError) throw new Error(`Step 6 failed (save call log): ${clError.message}`);
 
       setError(null);
       setStep("review");

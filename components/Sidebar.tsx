@@ -57,6 +57,15 @@ function TrendingUpIcon({ className }: { className?: string }) {
   );
 }
 
+function MapPinIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
 function LogOutIcon({ className }: { className?: string }) {
   return (
     <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -74,6 +83,7 @@ const nav = [
   { label: "Record Visit", href: "/record", icon: MicIcon },
   { label: "Call Logs", href: "/calllogs", icon: ClipboardIcon },
   { label: "Follow-Ups", href: "/followups", icon: BellIcon },
+  { label: "Drive Plan", href: "/driveplan", icon: MapPinIcon },
   { label: "Reports", href: "/reports", icon: TrendingUpIcon },
 ];
 
