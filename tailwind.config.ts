@@ -2,8 +2,8 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "/Users/gniemyer/hospice-referral-intelligence/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "/Users/gniemyer/hospice-referral-intelligence/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
