@@ -7,52 +7,51 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-jakarta)", "system-ui", "sans-serif"],
+      },
       colors: {
         brand: {
-          50: "#f0faff",
-          100: "#e0f4fe",
-          200: "#b9e8fd",
-          300: "#7cd8fb",
-          400: "#36c3f6",
-          500: "#00b4d8",
-          600: "#0090b2",
-          700: "#007494",
-          800: "#005c78",
-          900: "#1a3a5c",
-          950: "#0f2640",
+          50: "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
+          300: "#d8b4fe",
+          400: "#c084fc",
+          500: "#a855f7",
+          600: "#9333ea",
+          700: "#7e22ce",
+          800: "#6b21a8",
+          900: "#581c87",
+          950: "#3b0764",
         },
-        navy: {
-          800: "#1e2a5e",
-          900: "#1a2250",
-          950: "#12183d",
-        },
-        teal: {
-          300: "#7fdbda",
-          400: "#4ecdc4",
-          500: "#00b4d8",
+        accent: {
+          300: "#f0abfc",
+          400: "#e879f9",
+          500: "#d946ef",
+          600: "#c026d3",
         },
         surface: {
-          50: "#f8fafc",
-          100: "#f0f4f8",
+          50: "#fafafa",
+          100: "#f4f4f5",
         },
       },
       backgroundImage: {
         "gradient-brand":
-          "linear-gradient(135deg, #1a3a5c 0%, #00b4d8 50%, #7fdbda 100%)",
+          "linear-gradient(135deg, #a855f7 0%, #ec4899 100%)",
         "gradient-sidebar":
-          "linear-gradient(180deg, #12183d 0%, #1a3a5c 100%)",
+          "linear-gradient(180deg, #ffffff 0%, #fafafa 100%)",
         "gradient-auth":
-          "linear-gradient(135deg, #0f2640 0%, #1a3a5c 40%, #00b4d8 100%)",
+          "linear-gradient(135deg, #c084fc 0%, #f0abfc 40%, #fbcfe8 100%)",
         "gradient-button":
-          "linear-gradient(135deg, #00b4d8 0%, #007494 100%)",
+          "linear-gradient(135deg, #a855f7 0%, #ec4899 100%)",
         "gradient-button-hover":
-          "linear-gradient(135deg, #007494 0%, #005c78 100%)",
+          "linear-gradient(135deg, #9333ea 0%, #db2777 100%)",
         "gradient-card-accent":
-          "linear-gradient(135deg, #00b4d8 0%, #7fdbda 100%)",
+          "linear-gradient(135deg, #a855f7 0%, #f0abfc 100%)",
       },
       boxShadow: {
-        card: "0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06)",
-        "card-hover": "0 4px 12px 0 rgba(0, 180, 216, 0.15)",
+        card: "0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04)",
+        "card-hover": "0 4px 12px 0 rgba(168, 85, 247, 0.12)",
       },
     },
   },

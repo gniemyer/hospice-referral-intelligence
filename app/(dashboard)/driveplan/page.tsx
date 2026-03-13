@@ -102,7 +102,7 @@ export default function DrivePlanPage() {
       <div>
         <PageHeader title="Drive Plan" description="AI-generated route-optimized visit schedule." />
         <div className="flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-200 border-t-brand-500" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-500" />
         </div>
       </div>
     );

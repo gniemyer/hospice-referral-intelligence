@@ -280,7 +280,7 @@ export default function RecordPage() {
       {/* Processing state */}
       {step === "processing" && (
         <div className="rounded-xl bg-white p-12 text-center shadow-card">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-teal-200 border-t-brand-500" />
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-500" />
           <p className="text-sm text-gray-600">
             Transcribing and extracting call log data...
           </p>

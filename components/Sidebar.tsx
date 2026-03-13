@@ -100,11 +100,11 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="flex h-screen w-64 flex-col bg-gradient-sidebar">
+    <aside className="flex h-screen w-64 flex-col bg-white border-r border-gray-200">
       {/* Brand */}
-      <div className="flex h-16 items-center gap-2 border-b border-white/10 px-6">
-        <span className="text-xl font-bold text-white">HRI</span>
-        <span className="text-sm text-teal-300">Referral Intel</span>
+      <div className="flex h-16 items-center gap-2 border-b border-gray-100 px-6">
+        <span className="text-xl font-bold bg-gradient-brand bg-clip-text text-transparent">HRI</span>
+        <span className="text-sm font-medium text-gray-400">Referral Intel</span>
       </div>
 
       {/* Navigation */}
@@ -118,8 +118,8 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 active
-                  ? "bg-white/10 text-white border-l-2 border-teal-400"
-                  : "text-gray-300 hover:bg-white/5 hover:text-white"
+                  ? "bg-brand-50 text-brand-700 border-l-2 border-brand-500"
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               }`}
             >
               <Icon className="h-5 w-5" />
@@ -130,10 +130,10 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-white/10 p-4">
+      <div className="border-t border-gray-100 p-4">
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors"
         >
           <LogOutIcon className="h-5 w-5" />
           Sign Out
