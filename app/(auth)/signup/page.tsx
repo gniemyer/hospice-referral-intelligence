@@ -31,16 +31,20 @@ export default function SignupPage() {
       return;
     }
 
-    // Update profile with organization if provided
-    if (organization) {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        await supabase
-          .from("profiles")
-          .update({ organization })
-          .eq("id", user.id);
+    // Create organization and add user as admin member
+    if (organization.trim()) {
+      try {
+        const res = await fetch("/api/org/setup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ organization_name: organization }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          console.warn("Org setup warning:", data.error);
+        }
+      } catch (err) {
+        console.warn("Org setup failed:", err);
       }
     }
 
@@ -84,11 +88,12 @@ export default function SignupPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Organization{" "}
-            <span className="text-gray-400">(optional)</span>
+            Organization Name
           </label>
           <input
             type="text"
+            required
+            placeholder="e.g. Sunrise Hospice"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
             className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"

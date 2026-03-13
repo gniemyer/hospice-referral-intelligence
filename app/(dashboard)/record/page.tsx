@@ -31,6 +31,16 @@ export default function RecordPage() {
       } = await supabase.auth.getUser();
       if (!user) throw new Error("Step 0 failed: Not authenticated");
 
+      // Get user's organization for tagging data
+      const { data: membership } = await supabase
+        .from("organization_members")
+        .select("organization_id")
+        .eq("user_id", user.id)
+        .eq("is_active", true)
+        .limit(1)
+        .single();
+      const orgId = membership?.organization_id || null;
+
       // 1. Upload audio to Supabase Storage
       setError("Step 1: Uploading audio...");
       const filename = `${user.id}/${Date.now()}.webm`;
@@ -85,6 +95,7 @@ export default function RecordPage() {
         .from("voice_notes")
         .insert({
           user_id: user.id,
+          organization_id: orgId,
           audio_url: publicUrl,
           transcription: transcribeData.text,
         })
@@ -110,6 +121,7 @@ export default function RecordPage() {
             .from("facilities")
             .insert({
               user_id: user.id,
+              organization_id: orgId,
               facility_name: extractData.facility_name,
               facility_address: extractData.facility_address || null,
               geocode_status: "pending",
@@ -155,6 +167,7 @@ export default function RecordPage() {
       setError("Step 6: Saving call log...");
       const { error: clError } = await supabase.from("call_logs").insert({
         user_id: user.id,
+        organization_id: orgId,
         voice_note_id: voiceNote?.id,
         facility_id: facilityId,
         facility_name: extractData.facility_name || null,
