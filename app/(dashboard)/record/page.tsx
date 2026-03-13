@@ -123,9 +123,9 @@ export default function RecordPage() {
 
       {/* Recording UI */}
       {step === "record" && (
-        <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm">
+        <div className="rounded-xl bg-white p-8 text-center shadow-card">
           {/* Timer */}
-          <div className="mb-6 text-5xl font-mono font-light text-gray-700">
+          <div className="mb-6 text-5xl font-mono font-light text-brand-900">
             {formatDuration(recorder.duration)}
           </div>
 
@@ -153,13 +153,13 @@ export default function RecordPage() {
               <>
                 <button
                   onClick={handleNewRecording}
-                  className="rounded-full border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="rounded-full border border-gray-200 px-6 py-3 text-sm font-medium text-brand-900 hover:bg-brand-50 transition-colors"
                 >
                   Re-record
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="rounded-full bg-brand-600 px-8 py-3 text-sm font-medium text-white shadow-md hover:bg-brand-700"
+                  className="rounded-full bg-gradient-button px-8 py-3 text-sm font-medium text-white shadow-md hover:bg-gradient-button-hover transition-all"
                 >
                   Submit Note
                 </button>
@@ -192,8 +192,8 @@ export default function RecordPage() {
 
       {/* Processing state */}
       {step === "processing" && (
-        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+        <div className="rounded-xl bg-white p-12 text-center shadow-card">
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-teal-200 border-t-brand-500" />
           <p className="text-sm text-gray-600">
             Transcribing and extracting call log data...
           </p>
@@ -204,7 +204,7 @@ export default function RecordPage() {
       {step === "review" && extracted && (
         <div className="space-y-6">
           {/* Transcription */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl bg-white p-6 shadow-card">
             <h2 className="mb-2 text-sm font-semibold text-gray-500 uppercase">
               Transcription
             </h2>
@@ -214,7 +214,7 @@ export default function RecordPage() {
           </div>
 
           {/* Extracted fields */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl bg-white p-6 shadow-card">
             <h2 className="mb-4 text-sm font-semibold text-gray-500 uppercase">
               Extracted Call Log
             </h2>
@@ -267,13 +267,13 @@ export default function RecordPage() {
           <div className="flex gap-3">
             <button
               onClick={handleNewRecording}
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="flex-1 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-brand-900 hover:bg-brand-50 transition-colors"
             >
               Record Another
             </button>
             <button
               onClick={handleDone}
-              className="flex-1 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700"
+              className="flex-1 rounded-lg bg-gradient-button px-4 py-2.5 text-sm font-medium text-white shadow-md hover:bg-gradient-button-hover transition-all"
             >
               View Call Logs
             </button>

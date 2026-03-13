@@ -1,13 +1,14 @@
 interface BadgeProps {
   label: string;
-  variant?: "green" | "red" | "yellow" | "gray";
+  variant?: "green" | "red" | "yellow" | "gray" | "brand";
 }
 
 const variants: Record<string, string> = {
-  green: "bg-green-100 text-green-700",
-  red: "bg-red-100 text-red-700",
-  yellow: "bg-yellow-100 text-yellow-700",
-  gray: "bg-gray-100 text-gray-600",
+  green: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+  red: "bg-red-50 text-red-700 ring-1 ring-red-200",
+  yellow: "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
+  gray: "bg-gray-100 text-gray-600 ring-1 ring-gray-200",
+  brand: "bg-brand-50 text-brand-700 ring-1 ring-brand-200",
 };
 
 export default function Badge({ label, variant = "gray" }: BadgeProps) {

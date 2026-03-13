@@ -1,5 +1,5 @@
 /**
- * Layout for auth pages (login, signup) — centered card with no sidebar.
+ * Layout for auth pages (login, signup) — centered card with gradient background.
  */
 export default function AuthLayout({
   children,
@@ -7,7 +7,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-auth px-4">
       <div className="w-full max-w-md">{children}</div>
     </div>
   );

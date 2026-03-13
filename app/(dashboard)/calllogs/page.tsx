@@ -48,23 +48,23 @@ export default function CallLogsPage() {
           placeholder="Search facility..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
         />
         <label className="flex items-center gap-2 text-sm text-gray-600">
           <input
             type="checkbox"
             checked={filterReferral}
             onChange={(e) => setFilterReferral(e.target.checked)}
-            className="rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+            className="rounded border-gray-300 text-brand-500 focus:ring-brand-500"
           />
           Referral signals only
         </label>
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl bg-white shadow-card">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-brand-900/5">
             <tr>
               <th className="px-4 py-3 text-left font-medium text-gray-500">
                 Date
@@ -105,7 +105,7 @@ export default function CallLogsPage() {
               </tr>
             )}
             {filtered.map((log) => (
-              <tr key={log.id} className="hover:bg-gray-50">
+              <tr key={log.id} className="hover:bg-brand-50/50 transition-colors">
                 <td className="whitespace-nowrap px-4 py-3 text-gray-600">
                   {new Date(log.created_at).toLocaleDateString()}
                 </td>

@@ -33,9 +33,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div className="rounded-2xl bg-white/95 backdrop-blur-sm p-8 shadow-xl">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-bold text-brand-700">HRI</h1>
+        <h1 className="text-2xl font-bold bg-gradient-brand bg-clip-text text-transparent">HRI</h1>
         <p className="mt-1 text-sm text-gray-500">
           Sign in to Hospice Referral Intelligence
         </p>
@@ -51,7 +51,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
           />
         </div>
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="mt-1 block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
           />
         </div>
 
@@ -77,7 +77,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
+          className="w-full rounded-lg bg-gradient-button px-4 py-2.5 text-sm font-medium text-white shadow-md hover:bg-gradient-button-hover disabled:opacity-50 transition-all"
         >
           {loading ? "Signing in..." : "Sign In"}
         </button>
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
       <p className="mt-6 text-center text-sm text-gray-500">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="font-medium text-brand-600 hover:text-brand-700">
+        <Link href="/signup" className="font-medium text-brand-500 hover:text-brand-600">
           Sign up
         </Link>
       </p>

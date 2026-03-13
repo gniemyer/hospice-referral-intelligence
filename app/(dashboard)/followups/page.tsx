@@ -54,9 +54,9 @@ export default function FollowUpsPage() {
         description="Upcoming follow-ups extracted from your visit notes."
       />
 
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl bg-white shadow-card">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+          <thead className="bg-brand-900/5">
             <tr>
               <th className="px-4 py-3 text-left font-medium text-gray-500">
                 Status
@@ -95,7 +95,7 @@ export default function FollowUpsPage() {
               return (
                 <tr
                   key={log.id}
-                  className={overdue ? "bg-red-50 hover:bg-red-100" : "hover:bg-gray-50"}
+                  className={overdue ? "bg-red-50 hover:bg-red-100" : "hover:bg-brand-50/50 transition-colors"}
                 >
                   <td className="px-4 py-3">
                     {overdue ? (
