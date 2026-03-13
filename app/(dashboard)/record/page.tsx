@@ -29,22 +29,24 @@ export default function RecordPage() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) throw new Error("Step 0 failed: Not authenticated");
 
       // 1. Upload audio to Supabase Storage
+      setError("Step 1: Uploading audio...");
       const filename = `${user.id}/${Date.now()}.webm`;
       const { error: uploadError } = await supabase.storage
         .from("voice-notes")
         .upload(filename, recorder.audioBlob, {
           contentType: "audio/webm",
         });
-      if (uploadError) throw uploadError;
+      if (uploadError) throw new Error(`Step 1 failed (upload): ${uploadError.message}`);
 
       const {
         data: { publicUrl },
       } = supabase.storage.from("voice-notes").getPublicUrl(filename);
 
       // 2. Transcribe via Whisper
+      setError("Step 2: Transcribing audio...");
       const audioFormData = new FormData();
       audioFormData.append(
         "audio",
@@ -56,22 +58,30 @@ export default function RecordPage() {
         method: "POST",
         body: audioFormData,
       });
+      if (!transcribeRes.ok) {
+        const transcribeErr = await transcribeRes.text();
+        throw new Error(`Step 2 failed (transcribe): ${transcribeRes.status} - ${transcribeErr}`);
+      }
       const transcribeData = await transcribeRes.json();
-      if (!transcribeRes.ok) throw new Error(transcribeData.error);
       setTranscription(transcribeData.text);
 
       // 3. Extract structured data via GPT-4
+      setError("Step 3: Extracting call log data...");
       const extractRes = await fetch("/api/extract", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ transcription: transcribeData.text }),
       });
+      if (!extractRes.ok) {
+        const extractErr = await extractRes.text();
+        throw new Error(`Step 3 failed (extract): ${extractRes.status} - ${extractErr}`);
+      }
       const extractData = await extractRes.json();
-      if (!extractRes.ok) throw new Error(extractData.error);
       setExtracted(extractData);
 
       // 4. Save voice note
-      const { data: voiceNote } = await supabase
+      setError("Step 4: Saving to database...");
+      const { data: voiceNote, error: vnError } = await supabase
         .from("voice_notes")
         .insert({
           user_id: user.id,
@@ -80,9 +90,10 @@ export default function RecordPage() {
         })
         .select()
         .single();
+      if (vnError) throw new Error(`Step 4 failed (save voice note): ${vnError.message}`);
 
       // 5. Save call log
-      await supabase.from("call_logs").insert({
+      const { error: clError } = await supabase.from("call_logs").insert({
         user_id: user.id,
         voice_note_id: voiceNote?.id,
         facility_name: extractData.facility_name || null,
@@ -93,7 +104,9 @@ export default function RecordPage() {
         follow_up_date: extractData.follow_up_date || null,
         sentiment: extractData.sentiment || null,
       });
+      if (clError) throw new Error(`Step 5 failed (save call log): ${clError.message}`);
 
+      setError(null);
       setStep("review");
     } catch (err: unknown) {
       console.error(err);
