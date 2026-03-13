@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { createClient } from "@/lib/supabase/client";
-import { createServiceSupabase } from "@/lib/supabase/server";
+import { createServerSupabase, createServiceSupabase } from "@/lib/supabase/server";
 
 export const maxDuration = 120;
 
@@ -80,8 +79,8 @@ export async function POST(req: NextRequest) {
       // Cron job path — use service role
       supabase = createServiceSupabase();
     } else {
-      // User-initiated path — use browser client auth
-      supabase = createClient();
+      // User-initiated path — use server client with cookie auth
+      supabase = createServerSupabase();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
